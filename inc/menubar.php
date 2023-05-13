@@ -20,8 +20,8 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="">Add New Post</a></li>
-                <li class="nav-item"> <a class="nav-link" href="">View All Posts</a></li>
+                <li class="nav-item"> <a class="nav-link" href="posts.php?action=add">Add New Post</a></li>
+                <li class="nav-item"> <a class="nav-link" href="posts.php?action=view">View All Posts</a></li>
                 <li class="nav-item"> <a class="nav-link" href="">Tags</a></li>
               </ul>
             </div>

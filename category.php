@@ -1,4 +1,24 @@
 <?php include 'inc/header.php'; ?>
+
+<?php 
+
+  if(isset($_POST['add_category'])){
+    $name = $_POST['categoryname'];
+    $pid = $_POST['parent_id'];
+
+    $insert_sql = "INSERT INTO category (cat_name,is_sub,status) VALUES ('$name', '$pid', '1')";
+    $insert_res = mysqli_query($db,$insert_sql);
+    
+    if($insert_res){
+      header('Location: category.php');
+    }else{
+       die('Category insert error!'.mysqli_error($db));
+    }
+
+  }
+
+?>
+
 <div class="main-panel">
     <div class="content-wrapper">
     	<div class="row">
@@ -7,29 +27,33 @@
                 <div class="card-body">
                   <h4 class="card-title">Add new category</h4>
                   
-                  <form class="forms-sample">
+                  <form class="forms-sample" method="POST">
                     <div class="form-group">
                       <label for="categoryname">Category Name</label>
-                      <input type="text" class="form-control" id="categoryname" placeholder="Category Name" required>
+                      <input type="text" class="form-control" id="categoryname" name="categoryname" placeholder="Category Name" required>
                     </div>
 
                     <div class="form-group">
 	                    <label>Select Parent Category (if any)</label>
-	                    <select class="form-control">
-	                      <option value="AL" data-select2-id="3">Alabama</option>
-	                      <option value="WY" data-select2-id="10">Wyoming</option>
-	                      <option value="AM" data-select2-id="11">America</option>
-	                      <option value="CA" data-select2-id="12">Canada</option>
-	                      <option value="RU" data-select2-id="13">Russia</option>
+	                    <select class="form-control" name="parent_id">
+	                      <option value="0" selected data-select2-id="3">Please select parent category</option>
+	                      <?php 
+
+                        $sql = "SELECT * FROM category WHERE is_sub = '0'";
+                        $res = mysqli_query($db,$sql);
+                        while($row = mysqli_fetch_assoc($res)){
+                          $p_id = $row['ID'];
+                          $p_name = $row['cat_name'];
+                          ?>
+                          <option value="<?php echo $p_id;?>" data-select2-id="3"><?php echo $p_name;?></option>
+                          <?php
+                        }
+
+                        ?>
 	                    </select>
 	                  </div>
-                    
-                    <div class="form-group">
-                      <label for="icon">Category Icon (optional)</label>
-                      <input type="file" class="form-control" id="icon" >
-                    </div>
 
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button type="submit" name="add_category" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
